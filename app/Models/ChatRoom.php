@@ -9,13 +9,15 @@ class ChatRoom extends Model
 {
     use HasFactory;
 
-    public function user(){
+    protected $fillable=['user_id','chat_room_id'];
 
-        return $this>belongsToMany(User::class);
-        
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'chat_room_user', 'chat_room_id', 'user_id')
+            ->withPivot('created_at'); 
     }
 
-    public function message(){
+    public function messages(){
 
         return $this->hasMany(Message::class);
         

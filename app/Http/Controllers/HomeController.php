@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\ChatRoom;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,8 +24,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function create()
     {
-        return view('chat.index');
+        $currentlyLogUser = Auth::user();
+        $chatRooms = $currentlyLogUser->chatRoom()->with('users')->get();
+        $users = User::all();
+        return view('chat.create', compact('chatRooms', 'currentlyLogUser', 'users'));
     }
+    
+    
+    
 }

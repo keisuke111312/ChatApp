@@ -22,28 +22,26 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    public function chatRoom()
+    {
 
-    public function chatRoom(){
-        return $this->belongsToMany(ChatRoom::class);
+        return $this->belongsToMany(ChatRoom::class, 'chat_room_user', 'user_id', 'chat_room_id')
+            ->withTimestamps();
+            
+    }
+
+    public function message(){
+
+        return $this->hasMany(Message::class);
+        
     }
 }
